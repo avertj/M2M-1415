@@ -1,0 +1,10 @@
+// persistence strategies have a name and a definition and are referred to in the "Items" section
+Strategies {
+	// for rrd charts, we need a cron strategy
+	everyMinute : "0 * * * * ?"
+}
+
+Items {
+	
+	itm_flame_mqtt*, itm_temp_mqtt*, itm_hum_mqtt*, History_Chart* : strategy =  everyChange, everyMinute, restoreOnStartup
+}

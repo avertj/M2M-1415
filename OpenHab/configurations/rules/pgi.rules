@@ -1,0 +1,59 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+
+var Timer timer=null
+var boolean alert=false
+var boolean blink=false
+
+rule "Alert"
+when
+	Item itm_flame_mqtt changed
+then
+	
+	if(itm_flame_mqtt.state==1) {
+			alert=true
+			sendCommand(Fire, ON)
+            timer = createTimer(now.plusSeconds(3)) [|
+                //notifyMyAndroid("e568f83d1ea4f3f4d2a4a01307040c1f80da492b6f36fd9c","Security", "FIRE alarm has been tripped!!!", 2)
+                postUpdate(itm_flame_mqtt, new DateTimeType())
+                while(alert){
+                	say ("Alerte Feu")
+                	if(blink)sendCommand(Fire, ON) else sendCommand(Fire, OFF)
+                	blink=!blink
+                	}
+            ]
+        } else {
+            if(timer!=null) {
+            	logInfo("Proper Working","check fire sensor")
+                timer.cancel
+                timer = null
+                alert=false
+                blink=false
+            }
+            sendCommand(Fire, OFF)
+            postUpdate(itm_flame_mqtt, new DateTimeType())
+        }
+	
+end
+
+rule "Records last weather update time"
+when
+  Item itm_temp_mqtt received update
+then
+  postUpdate(itm_temp_mqtt, new DateTimeType())
+end
+
+rule "Records last humidity update time"
+when
+  Item itm_hum_mqtt received update
+then
+  postUpdate(itm_hum_mqtt, new DateTimeType())
+end
+
+rule "Records last history update time"
+when
+  Item History_Chart received update
+then
+  postUpdate(History_Chart_LastUpdate, new DateTimeType())
+end

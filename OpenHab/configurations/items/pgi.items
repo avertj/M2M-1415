@@ -1,0 +1,11 @@
+Group History_Chart
+DateTime		Date			"Date [%1$tA, %1$td.%1$tm.%1$tY]"	<calendar>	{ ntp="Europe/Berlin:de_DE" }
+Number itm_temp_mqtt "Température [%.1f °C]" <temperature> (History_Chart) {mqtt="<[mosquitto:15/temperature:state:default]"}
+Number itm_hum_mqtt "Humidité [%.1f %%]" <temperature> (History_Chart) {mqtt="<[mosquitto:15/humidity:state:default]"}
+Number itm_flame_mqtt "Fire Alarm [%d]" <fire> {mqtt="<[mosquitto:15/flame:state:default]"}
+Switch Fire "Fire Alarm" <fire>
+Number itm_temp_mqtt_Chart_Period		"Temperature Chart Period"
+Number itm_hum_mqtt_Chart_Period		"Humidity Chart Period"
+Number History_Chart_Period 			"History Chart Period"
+DateTime History_Chart_LastUpdate		"History - Last Update [%1$ta, %1$td.%1$tm.%1$tY -- %1$tR]"	<clock>
+DateTime itm_temp_mqtt_LastUpdate		"History - Last Update [%1$ta, %1$td.%1$tm.%1$tY -- %1$tR]"	<clock> { ntp="Europe/Berlin:de_DE" }
