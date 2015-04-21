@@ -15,7 +15,7 @@ then
 			alert=true
 			sendCommand(Fire, ON)
             timer = createTimer(now.plusSeconds(3)) [|
-                //notifyMyAndroid("e568f83d1ea4f3f4d2a4a01307040c1f80da492b6f36fd9c","Security", "FIRE alarm has been tripped!!!", 2)
+                //notifyMyAndroid("apikey","Security", "FIRE alarm has been tripped!!!", 2)
                 postUpdate(itm_flame_mqtt, new DateTimeType())
                 while(alert){
                 	say ("Alerte Feu")
